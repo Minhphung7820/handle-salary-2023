@@ -5,11 +5,11 @@ class Salary
     const CTS_PERSONAL_INCOME_TAX = 'personal_income_tax';
     const CTS_ENTERPRISE_PAY = 'enterprise_pay';
     const CTS_OVERVIEW = 'overview';
-    protected $inputSalary = 40000000;
+    protected $inputSalary = 9000000;
     protected $salary;
-    protected $typeSalary = 'NET';
+    protected $typeSalary = 'GROSS';
     protected $giamtrgiacanh = 11000000;
-    protected $number_of_dependents = 1;
+    protected $number_of_dependents = 0;
     protected $totalNumberOfDepen;
     protected $ttncn = 0;
     protected $gross;
@@ -36,7 +36,6 @@ class Salary
             'salary_gross' => null,
             'salary_net' => null,
             'insurance' => null,
-            'salary_gross' => null,
             'personal_income_tax' => null
         ],
         'personal_income' => [
@@ -159,24 +158,26 @@ class Salary
                         $this->result[self::CTS_PERSONAL_INCOME_TAX]['TH7'] = $thuesuat;
                     }
                     $this->ttncn =    $this->ttncn;
-                    $this->net = $this->tntt - $this->ttncn;
-                    $this->result[self::CTS_PERSONAL_INCOME]['salary_net'] =  $this->net;
-                    $this->bhxh_cpn = ($this->gross >= 29800000) ? 5066000 : $this->gross * 0.17;
-                    $this->bhbnn_cpn  = ($this->gross >= 29800000) ? 149000 : $this->gross * 0.005;                                          // bảo hiểm tai nạn
-                    $this->bhyt_cpn = ($this->gross > 29800000) ? 894000 : $this->gross * 0.03;
-                    $this->bhtn_cpn  = ($this->gross > 94000000) ? 936000 : $this->gross * 0.01;
-                    $this->totalBH_cpn = ($this->bhxh_cpn +  $this->bhbnn_cpn +  $this->bhyt_cpn +  $this->bhtn_cpn);
-                    $this->result[self::CTS_ENTERPRISE_PAY]['salary_gross'] = $this->gross;
-                    $this->result[self::CTS_ENTERPRISE_PAY]['social_insurance'] = $this->bhxh_cpn;
-                    $this->result[self::CTS_ENTERPRISE_PAY]['health_insurance'] = $this->bhyt_cpn;
-                    $this->result[self::CTS_ENTERPRISE_PAY]['unemployment_insurance'] =  $this->bhtn_cpn;
-                    $this->result[self::CTS_ENTERPRISE_PAY]['occupational_disease_insurance'] =  $this->bhbnn_cpn;
-                    $this->result[self::CTS_ENTERPRISE_PAY]['total'] =  ($this->gross +  $this->totalBH_cpn);
-                    $this->result[self::CTS_OVERVIEW]['salary_gross'] =  $this->gross;
-                    $this->result[self::CTS_OVERVIEW]['salary_net'] =   $this->net;
-                    $this->result[self::CTS_OVERVIEW]['insurance'] =   $this->totalBH;
-                    $this->result[self::CTS_OVERVIEW]['personal_income_tax'] =   $this->ttncn;
                 }
+
+                $this->net = $this->tntt - $this->ttncn;
+                $this->result[self::CTS_PERSONAL_INCOME]['salary_net'] =  $this->net;
+                $this->bhxh_cpn = ($this->gross >= 29800000) ? 5066000 : $this->gross * 0.17;
+                $this->bhbnn_cpn  = ($this->gross >= 29800000) ? 149000 : $this->gross * 0.005;                                          // bảo hiểm tai nạn
+                $this->bhyt_cpn = ($this->gross > 29800000) ? 894000 : $this->gross * 0.03;
+                $this->bhtn_cpn  = ($this->gross > 94000000) ? 936000 : $this->gross * 0.01;
+                $this->totalBH_cpn = ($this->bhxh_cpn +  $this->bhbnn_cpn +  $this->bhyt_cpn +  $this->bhtn_cpn);
+
+                $this->result[self::CTS_ENTERPRISE_PAY]['salary_gross'] = $this->gross;
+                $this->result[self::CTS_ENTERPRISE_PAY]['social_insurance'] = $this->bhxh_cpn;
+                $this->result[self::CTS_ENTERPRISE_PAY]['health_insurance'] = $this->bhyt_cpn;
+                $this->result[self::CTS_ENTERPRISE_PAY]['unemployment_insurance'] =  $this->bhtn_cpn;
+                $this->result[self::CTS_ENTERPRISE_PAY]['occupational_disease_insurance'] =  $this->bhbnn_cpn;
+                $this->result[self::CTS_ENTERPRISE_PAY]['total'] =  ($this->gross +  $this->totalBH_cpn);
+                $this->result[self::CTS_OVERVIEW]['salary_gross'] =  $this->gross;
+                $this->result[self::CTS_OVERVIEW]['salary_net'] =   $this->net;
+                $this->result[self::CTS_OVERVIEW]['insurance'] =   $this->totalBH;
+                $this->result[self::CTS_OVERVIEW]['personal_income_tax'] =   $this->ttncn;
                 break;
             case 'NET':
                 $this->net = $this->inputSalary;
